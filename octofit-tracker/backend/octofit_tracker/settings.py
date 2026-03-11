@@ -25,7 +25,22 @@ SECRET_KEY = 'django-insecure-t!$#-d7&(yf$wmgc)=yl8w5%oyh$mb-0z02$$*#_y6qcgi^-q4
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+import os
+
+# Consente sia localhost che il dominio Codespace
+codespace_name = os.environ.get('CODESPACE_NAME')
+allowed_hosts = ['localhost', '127.0.0.1']
+if codespace_name:
+    allowed_hosts.append(f"{codespace_name}-8000.app.github.dev")
+    allowed_hosts.append(f"{codespace_name}.github.dev")
+    allowed_hosts.append(f"{codespace_name}")
+
+# Permetti tutte le origini per CORS
 ALLOWED_HOSTS = ['*']
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_HEADERS = ['*']
+CORS_ALLOW_METHODS = ['DELETE', 'GET', 'OPTIONS', 'PATCH', 'POST', 'PUT']
 
 
 # Application definition
@@ -40,6 +55,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'djongo',
     'corsheaders',
+    'octofit_tracker',
 ]
 
 MIDDLEWARE = [
